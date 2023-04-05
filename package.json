@@ -1,0 +1,27 @@
+{
+  "name": "airtable-service",
+  "version": "1.0.0",
+  "description": "A Node.js package that makes it easy to use Airtable REST API for CRUD operations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/npranto/airtable-service.git"
+  },
+  "keywords": [
+    "airtable",
+    "service",
+    "nsp"
+  ],
+  "author": "Nazmuz Pranto <npranto@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/npranto/airtable-service/issues"
+  },
+  "homepage": "https://github.com/npranto/airtable-service#readme",
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}
