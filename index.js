@@ -1,11 +1,30 @@
+/**
+ * @module AirtableService
+ * @description Provides functions to interact with Airtable API.
+ */
+
 import axios from "axios";
 import pkgJSON from "./package.json";
 
+/**
+ * Logs the current version of the Airtable service.
+ * @function
+ */
 function airServiceLog() {
   console.log(`Airtable Service - v${pkgJSON.version}`);
 }
 
-export async function getAllRecords(config) {
+/**
+ * Retrieves all records from a specific table in Airtable
+ * @async
+ * @param {Object} config - Configuration object with Airtable credentials
+ * @param {string} config.AIRTABLE_BASE_ID - Airtable Base ID
+ * @param {string} config.AIRTABLE_TABLE_NAME - Name of the Airtable table to retrieve records from
+ * @param {string} config.AIRTABLE_API_KEY - Airtable API Key
+ * @returns {Promise<Array>} - Promise that resolves to an array of records
+ * @throws {Error} - Throws an error if unable to retrieve records from Airtable
+ */
+async function getAllRecords(config) {
   const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}`;
   const response = await axios.get(url, {
     headers: {
@@ -19,7 +38,18 @@ export async function getAllRecords(config) {
   }
 }
 
-export async function getRecordById(recordId, config) {
+/**
+ * Retrieves a specific record from an Airtable table by its ID
+ * @async
+ * @param {string} recordId - ID of the record to retrieve
+ * @param {Object} config - Configuration object with Airtable credentials
+ * @param {string} config.AIRTABLE_BASE_ID - Airtable Base ID
+ * @param {string} config.AIRTABLE_TABLE_NAME - Name of the Airtable table to retrieve the record from
+ * @param {string} config.AIRTABLE_API_KEY - Airtable API Key
+ * @returns {Promise<Object|null>} - Promise that resolves to the retrieved record or null if not found
+ * @throws {Error} - Throws an error if unable to retrieve the record from Airtable
+ */
+async function getRecordById(recordId, config) {
   const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}/${recordId}`;
   try {
     const response = await axios.get(url, {
@@ -37,7 +67,18 @@ export async function getRecordById(recordId, config) {
   }
 }
 
-export async function createRecord(data, config) {
+/**
+ * Creates a new record in an Airtable table with the specified data
+ * @async
+ * @param {Object} data - Data for the new record to be created
+ * @param {Object} config - Configuration object with Airtable credentials
+ * @param {string} config.AIRTABLE_BASE_ID - Airtable Base ID
+ * @param {string} config.AIRTABLE_TABLE_NAME - Name of the Airtable table to create the record in
+ * @param {string} config.AIRTABLE_API_KEY - Airtable API Key
+ * @returns {Promise<Object>} - Promise that resolves to the newly created record
+ * @throws {Error} - Throws an error if unable to create the record in Airtable
+ */
+async function createRecord(data, config) {
   const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}`;
   try {
     const response = await axios.post(
@@ -56,7 +97,19 @@ export async function createRecord(data, config) {
   }
 }
 
-export async function updateRecord(recordId, data, config) {
+/**
+ * Updates a record in an Airtable table with the specified ID and data
+ * @async
+ * @param {string} recordId - ID of the record to update
+ * @param {Object} data - New data for the record to be updated
+ * @param {Object} config - Configuration object with Airtable credentials
+ * @param {string} config.AIRTABLE_BASE_ID - Airtable Base ID
+ * @param {string} config.AIRTABLE_TABLE_NAME - Name of the Airtable table to update the record in
+ * @param {string} config.AIRTABLE_API_KEY - Airtable API Key
+ * @returns {Promise<Object|null>} - Promise that resolves to the updated record or null if not found
+ * @throws {Error} - Throws an error if unable to update the record in Airtable
+ */
+async function updateRecord(recordId, data, config) {
   const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}/${recordId}`;
   try {
     const response = await axios.patch(
@@ -79,7 +132,18 @@ export async function updateRecord(recordId, data, config) {
   }
 }
 
-export async function deleteRecord(recordId, config) {
+/**
+ * Deletes a record from an Airtable table with the specified ID
+ * @async
+ * @param {string} recordId - ID of the record to delete
+ * @param {Object} config - Configuration object with Airtable credentials
+ * @param {string} config.AIRTABLE_BASE_ID - Airtable Base ID
+ * @param {string} config.AIRTABLE_TABLE_NAME - Name of the Airtable table to delete the record from
+ * @param {string} config.AIRTABLE_API_KEY - Airtable API Key
+ * @returns {Promise<string|null>} - Promise that resolves to the deleted record ID or null if not found
+ * @throws {Error} - Throws an error if unable to delete the record from Airtable
+ */
+async function deleteRecord(recordId, config) {
   const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}/${recordId}`;
   try {
     const response = await axios.delete(url, {
@@ -97,6 +161,14 @@ export async function deleteRecord(recordId, config) {
   }
 }
 
+/**
+ * Creates an instance of the AirtableService.
+ * @param {Object} options - An object that contains the configuration for the AirtableService.
+ * @param {string} options.AIRTABLE_API_KEY - The API key for the Airtable account.
+ * @param {string} options.AIRTABLE_BASE_ID - The ID of the Airtable base.
+ * @param {string} options.AIRTABLE_TABLE_NAME - The name of the table in the Airtable base.
+ * @returns {AirtableService} An instance of the AirtableService.
+ */
 export function AirtableService({
   AIRTABLE_API_KEY,
   AIRTABLE_BASE_ID,
