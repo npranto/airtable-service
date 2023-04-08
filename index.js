@@ -84,16 +84,8 @@ async function createRecord(data, config) {
   const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}`;
   console.log("url: ", url);
 
-  const records = {
-    records: [
-      {
-        fields: data,
-      },
-    ],
-  };
-
   try {
-    const response = await axios.post(url, JSON.stringify(records), {
+    const response = await axios.post(url, JSON.stringify(data), {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${config.AIRTABLE_API_KEY}`,
@@ -121,16 +113,12 @@ async function updateRecord(recordId, data, config) {
   const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}/${recordId}`;
   console.log("url: ", url);
   try {
-    const response = await axios.patch(
-      url,
-      { fields: data },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${config.AIRTABLE_API_KEY}`,
-        },
-      }
-    );
+    const response = await axios.patch(url, JSON.stringify(data), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${config.AIRTABLE_API_KEY}`,
+      },
+    });
     return response.data;
   } catch (error) {
     if (error.response.status === 404) {
