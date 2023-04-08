@@ -2,9 +2,18 @@
   "name": "airtable-service",
   "version": "1.0.0",
   "description": "A Node.js package that makes it easy to use Airtable REST API for CRUD operations",
-  "main": "index.js",
+  "type": "module",
+  "source": "index.js",
+  "exports": {
+    "require": "./dist/air-service.cjs.js",
+    "default": "./dist/air-service.modern.js"
+  },
+  "main": "dist/air-service.cjs.js",
+  "module": "dist/air-service.esm.js",
+  "unpkg": "dist/air-service.umd.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "microbundle",
+    "dev": "microbundle watch"
   },
   "repository": {
     "type": "git",
@@ -25,6 +34,14 @@
     "node": ">=12.0.0"
   },
   "dependencies": {
-    "dotenv": "^16.0.3"
-  }
+    "axios": "^1.3.5",
+    "dotenv": "^16.0.3",
+    "ms": "^2.0.0"
+  },
+  "devDependencies": {
+    "microbundle": "^0.15.1"
+  },
+  "files": [
+    "dist"
+  ]
 }
