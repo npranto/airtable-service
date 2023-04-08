@@ -1,5 +1,5 @@
 {
-  "name": "airtable-service",
+  "name": "@npranto/airtable-service",
   "version": "1.0.0",
   "description": "A Node.js package that makes it easy to use Airtable REST API for CRUD operations",
   "type": "module",
