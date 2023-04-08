@@ -1,19 +1,15 @@
 import axios from "axios";
+import pkgJSON from "./package.json";
 
-const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
-const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
-const AIRTABLE_TABLE_NAME = process.env.AIRTABLE_TABLE_NAME;
-
-export function airServiceLog() {
-  console.log("Airtable Service - Logs");
+function airServiceLog() {
+  console.log(`Airtable Service - v${pkgJSON.version}`);
 }
 
-// Get all records from Airtable
-export async function getAllRecords() {
-  const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`;
+export async function getAllRecords(config) {
+  const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}`;
   const response = await axios.get(url, {
     headers: {
-      Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+      Authorization: `Bearer ${config.AIRTABLE_API_KEY}`,
     },
   });
   if (response.status === 200) {
@@ -23,13 +19,12 @@ export async function getAllRecords() {
   }
 }
 
-// Get a record by ID from Airtable
-export async function getRecordById(recordId) {
-  const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}/${recordId}`;
+export async function getRecordById(recordId, config) {
+  const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}/${recordId}`;
   try {
     const response = await axios.get(url, {
       headers: {
-        Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+        Authorization: `Bearer ${config.AIRTABLE_API_KEY}`,
       },
     });
     return response.data;
@@ -42,9 +37,8 @@ export async function getRecordById(recordId) {
   }
 }
 
-// Create a new record in Airtable
-export async function createRecord(data) {
-  const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`;
+export async function createRecord(data, config) {
+  const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}`;
   try {
     const response = await axios.post(
       url,
@@ -52,7 +46,7 @@ export async function createRecord(data) {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+          Authorization: `Bearer ${config.AIRTABLE_API_KEY}`,
         },
       }
     );
@@ -62,9 +56,8 @@ export async function createRecord(data) {
   }
 }
 
-// Update a record in Airtable
-export async function updateRecord(recordId, data) {
-  const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}/${recordId}`;
+export async function updateRecord(recordId, data, config) {
+  const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}/${recordId}`;
   try {
     const response = await axios.patch(
       url,
@@ -72,7 +65,7 @@ export async function updateRecord(recordId, data) {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+          Authorization: `Bearer ${config.AIRTABLE_API_KEY}`,
         },
       }
     );
@@ -86,13 +79,12 @@ export async function updateRecord(recordId, data) {
   }
 }
 
-// Delete a record from Airtable
-export async function deleteRecord(recordId) {
-  const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}/${recordId}`;
+export async function deleteRecord(recordId, config) {
+  const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}/${recordId}`;
   try {
     const response = await axios.delete(url, {
       headers: {
-        Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+        Authorization: `Bearer ${config.AIRTABLE_API_KEY}`,
       },
     });
     return recordId;
@@ -103,4 +95,44 @@ export async function deleteRecord(recordId) {
       throw new Error("Unable to delete record from Airtable");
     }
   }
+}
+
+export function AirtableService({
+  AIRTABLE_API_KEY,
+  AIRTABLE_BASE_ID,
+  AIRTABLE_TABLE_NAME,
+}) {
+  return {
+    airServiceLog: () => airServiceLog(),
+    getAllRecords: () =>
+      getAllRecords({
+        AIRTABLE_API_KEY,
+        AIRTABLE_BASE_ID,
+        AIRTABLE_TABLE_NAME,
+      }),
+    getRecordById: (recordId) =>
+      getRecordById(recordId, {
+        AIRTABLE_API_KEY,
+        AIRTABLE_BASE_ID,
+        AIRTABLE_TABLE_NAME,
+      }),
+    createRecord: (data) =>
+      createRecord(data, {
+        AIRTABLE_API_KEY,
+        AIRTABLE_BASE_ID,
+        AIRTABLE_TABLE_NAME,
+      }),
+    updateRecord: (recordId) =>
+      updateRecord(recordId, {
+        AIRTABLE_API_KEY,
+        AIRTABLE_BASE_ID,
+        AIRTABLE_TABLE_NAME,
+      }),
+    deleteRecord: (recordId) =>
+      deleteRecord(recordId, {
+        AIRTABLE_API_KEY,
+        AIRTABLE_BASE_ID,
+        AIRTABLE_TABLE_NAME,
+      }),
+  };
 }
