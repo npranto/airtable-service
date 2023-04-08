@@ -13,8 +13,7 @@
   "unpkg": "dist/air-service.umd.js",
   "scripts": {
     "build": "microbundle",
-    "dev": "microbundle watch",
-    "publish": "npm publish --access public"
+    "dev": "microbundle watch"
   },
   "repository": {
     "type": "git",
