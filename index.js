@@ -83,17 +83,22 @@ async function getRecordById(recordId, config) {
 async function createRecord(data, config) {
   const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}`;
   console.log("url: ", url);
-  try {
-    const response = await axios.post(
-      url,
-      { fields: data },
+
+  const records = {
+    records: [
       {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${config.AIRTABLE_API_KEY}`,
-        },
-      }
-    );
+        fields: data,
+      },
+    ],
+  };
+
+  try {
+    const response = await axios.post(url, JSON.stringify(records), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${config.AIRTABLE_API_KEY}`,
+      },
+    });
     return response.data;
   } catch (error) {
     throw new Error("Unable to create record in Airtable");
