@@ -2,7 +2,7 @@ import axios from "axios";
 import pkgJSON from "./package.json";
 
 function airServiceLog() {
-  console.log(`Airtable Service - v${pkgJSON.version}`);
+  console.log(`Airtable Service - v${pkgJSON.version} `);
 }
 
 export async function getAllRecords(config) {
