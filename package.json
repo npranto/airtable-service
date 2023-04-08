@@ -5,10 +5,10 @@
   "type": "module",
   "source": "index.js",
   "exports": {
-    "require": "./dist/air-service.cjs.js",
+    "require": "./dist/air-service.cjs",
     "default": "./dist/air-service.modern.js"
   },
-  "main": "dist/air-service.cjs.js",
+  "main": "dist/air-service.cjs",
   "module": "dist/air-service.esm.js",
   "unpkg": "dist/air-service.umd.js",
   "scripts": {
