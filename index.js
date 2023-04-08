@@ -26,6 +26,7 @@ function airServiceLog() {
  */
 async function getAllRecords(config) {
   const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}`;
+  console.log("url: ", url);
   const response = await axios.get(url, {
     headers: {
       Authorization: `Bearer ${config.AIRTABLE_API_KEY}`,
@@ -51,6 +52,7 @@ async function getAllRecords(config) {
  */
 async function getRecordById(recordId, config) {
   const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}/${recordId}`;
+  console.log("url: ", url);
   try {
     const response = await axios.get(url, {
       headers: {
@@ -80,6 +82,7 @@ async function getRecordById(recordId, config) {
  */
 async function createRecord(data, config) {
   const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}`;
+  console.log("url: ", url);
   try {
     const response = await axios.post(
       url,
@@ -111,6 +114,7 @@ async function createRecord(data, config) {
  */
 async function updateRecord(recordId, data, config) {
   const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}/${recordId}`;
+  console.log("url: ", url);
   try {
     const response = await axios.patch(
       url,
@@ -145,6 +149,7 @@ async function updateRecord(recordId, data, config) {
  */
 async function deleteRecord(recordId, config) {
   const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}/${recordId}`;
+  console.log("url: ", url);
   try {
     const response = await axios.delete(url, {
       headers: {
