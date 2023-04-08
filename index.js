@@ -102,37 +102,17 @@ export function AirtableService({
   AIRTABLE_BASE_ID,
   AIRTABLE_TABLE_NAME,
 }) {
+  const config = {
+    AIRTABLE_API_KEY,
+    AIRTABLE_BASE_ID,
+    AIRTABLE_TABLE_NAME,
+  };
   return {
     airServiceLog: () => airServiceLog(),
-    getAllRecords: () =>
-      getAllRecords({
-        AIRTABLE_API_KEY,
-        AIRTABLE_BASE_ID,
-        AIRTABLE_TABLE_NAME,
-      }),
-    getRecordById: (recordId) =>
-      getRecordById(recordId, {
-        AIRTABLE_API_KEY,
-        AIRTABLE_BASE_ID,
-        AIRTABLE_TABLE_NAME,
-      }),
-    createRecord: (data) =>
-      createRecord(data, {
-        AIRTABLE_API_KEY,
-        AIRTABLE_BASE_ID,
-        AIRTABLE_TABLE_NAME,
-      }),
-    updateRecord: (recordId) =>
-      updateRecord(recordId, {
-        AIRTABLE_API_KEY,
-        AIRTABLE_BASE_ID,
-        AIRTABLE_TABLE_NAME,
-      }),
-    deleteRecord: (recordId) =>
-      deleteRecord(recordId, {
-        AIRTABLE_API_KEY,
-        AIRTABLE_BASE_ID,
-        AIRTABLE_TABLE_NAME,
-      }),
+    getAllRecords: () => getAllRecords(config),
+    getRecordById: (recordId) => getRecordById(recordId, config),
+    createRecord: (data) => createRecord(data, config),
+    updateRecord: (recordId) => updateRecord(recordId, config),
+    deleteRecord: (recordId) => deleteRecord(recordId, config),
   };
 }
