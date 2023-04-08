@@ -80,17 +80,56 @@ async function getRecordById(recordId, config) {
  * @returns {Promise<Object>} - Promise that resolves to the newly created record
  * @throws {Error} - Throws an error if unable to create the record in Airtable
  */
-async function createRecord(data, config) {
+async function createRecord(data, validator, config) {
   const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}`;
   console.log("url: ", url);
 
+  const validateData = (_data, _validator) => {
+    if (!validator || typeof validator !== "func") {
+      return {
+        isValid: true,
+        error: null,
+      };
+    }
+
+    const validatorOutput = validator(data) || {};
+    const validatorOutputKeys = Object.keys(validatorOutput);
+    if (
+      !validatorOutputKeys ||
+      !validatorOutputKeys.length ||
+      !validatorOutputKeys.includes("isValid") ||
+      !validatorOutputKeys.includes("error")
+    ) {
+      throw new Error(
+        "`validator` function must return an object with `isValid` and `error` properties"
+      );
+    }
+
+    return {
+      isValid: validatorOutput.isValid,
+      error: validatorOutput.error,
+    };
+  };
+
+  const { isValid, error } = validateData(data, validator);
+
+  if (!isValid) {
+    throw new Error(error || "Please pass in valid data to create a record");
+  }
+
   try {
-    const response = await axios.post(url, JSON.stringify(data), {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${config.AIRTABLE_API_KEY}`,
+    const response = await axios.post(
+      url,
+      {
+        records: Array.isArray(data) ? [...data] : [data],
       },
-    });
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${config.AIRTABLE_API_KEY}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     throw new Error("Unable to create record in Airtable");
@@ -113,12 +152,18 @@ async function updateRecord(recordId, data, config) {
   const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}/${recordId}`;
   console.log("url: ", url);
   try {
-    const response = await axios.patch(url, JSON.stringify(data), {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${config.AIRTABLE_API_KEY}`,
+    const response = await axios.patch(
+      url,
+      {
+        records: Array.isArray(data) ? [...data] : [data],
       },
-    });
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${config.AIRTABLE_API_KEY}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     if (error.response.status === 404) {
@@ -181,7 +226,7 @@ export function AirtableService({
     airServiceLog: () => airServiceLog(),
     getAllRecords: () => getAllRecords(config),
     getRecordById: (recordId) => getRecordById(recordId, config),
-    createRecord: (data) => createRecord(data, config),
+    createRecord: (data, validator) => createRecord(data, validator, config),
     updateRecord: (recordId) => updateRecord(recordId, config),
     deleteRecord: (recordId) => deleteRecord(recordId, config),
   };
