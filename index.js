@@ -6,8 +6,16 @@
 import axios from "axios";
 import pkgJSON from "./package.json";
 
+/**
+ * Validates data using a provided validator function.
+ *
+ * @param {Object} data - The data to validate.
+ * @param {Function} validator - The validator function to use.
+ * @returns {Object} An object with `isValid` and `error` properties.
+ * @throws {Error} If `validator` function does not return an object with `isValid` and `error` properties.
+ */
 const validateData = (data, validator) => {
-  if (!validator || typeof validator !== "func") {
+  if (!validator || typeof validator !== "function") {
     return {
       isValid: true,
       error: null,
@@ -97,19 +105,19 @@ async function getRecordById(recordId, config) {
 }
 
 /**
- * Creates a new record in an Airtable table with the specified data
+ * Creates a new record in Airtable.
  * @async
- * @param {Object} data - Data for the new record to be created
- * @param {Object} config - Configuration object with Airtable credentials
- * @param {string} config.AIRTABLE_BASE_ID - Airtable Base ID
- * @param {string} config.AIRTABLE_TABLE_NAME - Name of the Airtable table to create the record in
- * @param {string} config.AIRTABLE_API_KEY - Airtable API Key
- * @returns {Promise<Object>} - Promise that resolves to the newly created record
- * @throws {Error} - Throws an error if unable to create the record in Airtable
+ * @param {Object|Array} data - The data to be added to the Airtable. It can be either an object or an array of objects.
+ * @param {Function} validator - The validation function to be applied on the data. It should return an object with 'isValid' and 'error' properties.
+ * @param {Object} config - Configuration object with Airtable credentials.
+ * @param {string} config.AIRTABLE_BASE_ID - Airtable Base ID.
+ * @param {string} config.AIRTABLE_TABLE_NAME - Name of the Airtable table to create record(s) in.
+ * @param {string} config.AIRTABLE_API_KEY - Airtable API Key.
+ * @throws {Error} Will throw an error if unable to create record(s) in Airtable.
+ * @returns {Object} Returns the data of the created record(s).
  */
 async function createRecord(data, validator, config) {
   const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}`;
-  console.log("url: ", url);
 
   const { isValid, error } = validateData(data, validator);
 
@@ -142,6 +150,7 @@ async function createRecord(data, validator, config) {
  * @async
  * @param {string} recordId - ID of the record to update
  * @param {Object} data - New data for the record to be updated
+ * @param {Function} validator - The validation function to be applied on the data. It should return an object with 'isValid' and 'error' properties.
  * @param {Object} config - Configuration object with Airtable credentials
  * @param {string} config.AIRTABLE_BASE_ID - Airtable Base ID
  * @param {string} config.AIRTABLE_TABLE_NAME - Name of the Airtable table to update the record in
