@@ -1,7 +1,7 @@
 {
   "name": "@npranto/airtable-service",
   "version": "1.0.19",
-  "description": "A Node.js package that makes it easy to use Airtable REST API for CRUD operations",
+  "description": "A JavaScript library that makes it easy to use Airtable REST API for CRUD operations, supported on both Node and Browser environments",
   "type": "module",
   "source": "index.js",
   "exports": {

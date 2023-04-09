@@ -1,6 +1,6 @@
 # Airtable Service
 
-This module is an API container for **Airtable** that provides methods to perform CRUD (Create, Read, Update, Delete) operations on an Airtable database.
+A JavaScript library that makes it easy to use Airtable REST API for CRUD operations, supported on both Node and Browser environments
 
 ## Installation
 
