@@ -132,6 +132,7 @@ async function createRecord(data, validator, config) {
     );
     return response.data;
   } catch (error) {
+    console.error(error);
     throw new Error("Unable to create record in Airtable");
   }
 }
