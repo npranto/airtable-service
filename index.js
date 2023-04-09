@@ -149,7 +149,7 @@ async function createRecord(data, validator, config) {
  * @returns {Promise<Object|null>} - Promise that resolves to the updated record or null if not found
  * @throws {Error} - Throws an error if unable to update the record in Airtable
  */
-async function updateRecord(recordId, data, config) {
+async function updateRecord(recordId, data, validator, config) {
   const url = `https://api.airtable.com/v0/${config.AIRTABLE_BASE_ID}/${config.AIRTABLE_TABLE_NAME}/${recordId}`;
   console.log("url: ", url);
 
