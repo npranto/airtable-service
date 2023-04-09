@@ -160,18 +160,12 @@ async function updateRecord(recordId, data, validator, config) {
   }
 
   try {
-    const response = await axios.patch(
-      url,
-      {
-        records: Array.isArray(data) ? [...data] : [data],
+    const response = await axios.patch(url, data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${config.AIRTABLE_API_KEY}`,
       },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${config.AIRTABLE_API_KEY}`,
-        },
-      }
-    );
+    });
     return response.data;
   } catch (error) {
     if (error.response.status === 404) {
