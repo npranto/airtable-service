@@ -1,11 +1,11 @@
 {
-  "changelog_type": "pull_request",
+  "changelog_type": "commit_message",
   "header_prefix": "Version:",
   "commit_changelog": true,
   "comment_changelog": true,
   "include_unlabeled_changes": true,
-  "unlabeled_group_title": "Unlabeled Changes",
-  "pull_request_title_regex": "[CHANGELOG]",
+  "unlabeled_group_title": "Changes",
+  "pull_request_title_regex": ".*",
   "version_regex": ".*",
   "exclude_labels": ["bot", "dependabot", "ci"],
   "group_config": [
