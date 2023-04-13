@@ -11,6 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Set git user
+        run: |
+          git config --global user.name "Nazmuz Pranto"
+          git config --global user.email "npranto@gmail.com"
       - name: Run Changelog CI
         uses: saadmk11/changelog-ci@v1.1.1
         with:
