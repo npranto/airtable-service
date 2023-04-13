@@ -18,4 +18,6 @@ jobs:
       - name: Run Changelog CI
         uses: saadmk11/changelog-ci@v1.1.1
         with:
+          committer_username: "npranto"
+          committer_email: "npranto@gmail.com"
           config_file: changelog-ci-config.json
